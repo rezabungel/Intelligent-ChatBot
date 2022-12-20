@@ -8,7 +8,9 @@ from torch.utils.data import Dataset, DataLoader
 from NLTK_utils import tokenize, stem, bag_of_words
 from model import NeuralNet
 
-with open('intents.json', 'r') as f:  # Безопасное открытие файла (+ гарантия его закрытия). Режим открытия: r - read mood (открыть файл в режиме чтения)
+import time # Используем для вычисления времени, которое уходит на обучение модели
+
+with open('source/intents.json', 'r') as f:  # Безопасное открытие файла (+ гарантия его закрытия). Режим открытия: r - read mood (открыть файл в режиме чтения)
     intents = json.load(f) # Возвращает JSON объект как словарь (Чтения содержимого JSON файла)
 
 all_words = []
@@ -60,12 +62,12 @@ class ChatDataset(Dataset):
         return self.n_samples
 
 # Hyper-parameters 
-num_epochs = 1000
-batch_size = 8
-learning_rate = 0.001
-input_size = len(X_train[0])
-hidden_size = 8
-output_size = len(tags)
+num_epochs = 2000                     # Кол-во тренировок для всех наборов данных
+batch_size = 30                       # Размер входных данный для одной итерации
+learning_rate = 0.00001               # Скорость обучения
+input_size = len(X_train[0])          # Кол-во нейронов на входном слое # input_size = len(all_words) - так нагляднее
+hidden_size = int(len(X_train[0])/2)  # Кол-во нейронов в скрытом слое
+output_size = len(tags)               # Кол-во нейронов в выходном слое
 
 #print(input_size, len(all_words))
 #print(output_size, tags)
@@ -78,9 +80,10 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # Если
 model = NeuralNet(input_size, hidden_size, output_size).to(device)
 
 # Loss and optimizer
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate) # ls - learning rate - скорость обучения
+criterion = nn.CrossEntropyLoss() # Функция потерь - мера того, насколько хорошо модель прогнозирования предсказывает ожидаемый результат
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate) # Оптимизаторы используются для обновления весов и скорости обучения, то есть внутренних параметров модели, чтобы уменьшить ошибку, а следовательно, увеличить точность работы модели
 
+start_time = time.time() # Запуск секундомера
 # Train the model
 for epoch in range(num_epochs):
     for (words, labels) in train_loader:
@@ -88,18 +91,21 @@ for epoch in range(num_epochs):
         labels = labels.to(device)
 
         # Forward pass
-        outputs = model(words)
-        loss = criterion(outputs, labels)
+        outputs = model(words)                  # Передний пропуск: определение выходного класса
+        loss = criterion(outputs, labels)       # Определение потерь: разница между выходным классом и предварительно заданной меткой
 
         # Backward and optimize
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+        optimizer.zero_grad()                   # Инициализация скрытых масс до нулей
+        loss.backward()                         # Обратный проход: определение параметра weight
+        optimizer.step()                        # Оптимизатор: обновление параметров веса в скрытых узлах
     
-    if ((epoch+1) % 100 == 0): # Вывод информации о каждых 100 эпохах
+    if ((epoch+1) % 100 == 0):                  # Вывод информации о каждых 100 эпохах
         print(f"epoch {epoch+1}/{num_epochs}, loss={loss.item():.4f}")
 
+
+end_time = time.time() - start_time # Остановка секундомера
 print(f"final loss, loss={loss.item():.4f}")
+print(f'Обучение длилось: {"%.3f" % end_time} сек.')
 
 # Сохраним результат нашей обученной модели в файл
 data = {
@@ -111,7 +117,7 @@ data = {
     "tags": tags
 }
 
-FILE = "data.pth"
+FILE = "source/data.pth"
 torch.save(data, FILE)
 
 print(f"trainig complete. file saved to {FILE}")

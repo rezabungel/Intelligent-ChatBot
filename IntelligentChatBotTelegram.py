@@ -45,7 +45,7 @@ def info_about_Jarvis (message):
         \nКонвейер предварительной обработки (NLP preprocessing pipeline) следующий: string(messeg) -> tokenize -> lower+stem -> exclude punctuation characters(stop words) -> bag of word->getting a one-hot vector.\
         \n\nМою реализацию можно найти в GitHub репозитории.'
     
-    markup = types.InlineKeyboardMarkup() # InlineKeyboardMarkup - класс, который позволяет создавать различные встроенные в сообщения вещи (различные кнопки, изображения  и т.д.)
+    markup = types.InlineKeyboardMarkup() # InlineKeyboardMarkup - класс, который позволяет создавать различные встроенные в сообщения вещи (различные кнопки, изображения и т.д.)
     markup.add(types.InlineKeyboardButton("GitHub repository", url="https://github.com/rezabungel/Intelligent-ChatBot")) # 1 параметр - текст, который написан на кнопке, 2 параметр - URL-адрес
 
     bot.send_message(message.chat.id, answer, reply_markup=markup, parse_mode='html')
@@ -56,19 +56,19 @@ def info_about_creator (message):
     answer = 'Святченко Артём, студент РТУ МИРЭА.\
             \nСсылка на мой GitHub профиль.'
     
-    markup = types.InlineKeyboardMarkup() # InlineKeyboardMarkup - класс, который позволяет создавать различные встроенные в сообщения вещи (различные кнопки, изображения  и т.д.)
+    markup = types.InlineKeyboardMarkup() # InlineKeyboardMarkup - класс, который позволяет создавать различные встроенные в сообщения вещи (различные кнопки, изображения и т.д.)
     markup.add(types.InlineKeyboardButton("GitHub profile", url="https://github.com/rezabungel")) # 1 параметр - текст, который написан на кнопке, 2 параметр - URL-адрес
     
     bot.send_message(message.chat.id, answer, reply_markup=markup)
 
-# Команда "/documentation" - выдаст названия и ссылки на документацию python библиотек -> Работа с командами + Создание кнопок, встроенных в сообщение
+# Команда "/documentation" - выдаст названия и ссылки на документации python библиотек -> Работа с командами + Создание кнопок, встроенных в сообщение
 @bot.message_handler(commands=['documentation'])
 def documentation(message):
     python_libraries = [["Scikit-learn", "https://scikit-learn.org/stable/#"], ["NLTK (Natural Language Toolkit)", "https://www.nltk.org"], ["NumPy", "https://numpy.org/doc/stable/"], ["Pandas", "https://pandas.pydata.org/docs/"],
                         ["Pytorch", "https://pytorch.org/docs/stable/index.html"], ["Matplotlib", "https://matplotlib.org/stable/api/index.html"], ["Jupyter", "https://docs.jupyter.org/en/latest/"], ["pyTelegramBotAPI", "https://pytba.readthedocs.io/en/latest/index.html"]]
 
     for library in python_libraries:
-        markup = types.InlineKeyboardMarkup() # InlineKeyboardMarkup - класс, который позволяет создавать различные встроенные в сообщения вещи (различные кнопки, изображения  и т.д.)
+        markup = types.InlineKeyboardMarkup() # InlineKeyboardMarkup - класс, который позволяет создавать различные встроенные в сообщения вещи (различные кнопки, изображения и т.д.)
         markup.add(types.InlineKeyboardButton(library[0], url=library[1])) # 1 параметр - текст, который написан на кнопке, 2 параметр - URL-адрес
         bot.send_message(message.chat.id, f"Документация {library[0]}", reply_markup=markup)
 
@@ -77,11 +77,11 @@ def documentation(message):
 def show_photo(message):
     #Отправка фотографии 1
     bot.send_message(message.chat.id, "Так я вижу себя:", parse_mode='html')
-    photo = open('something/Jarvis.png', 'rb') # Открытие фотографии стандартными методами Питона. # 'rb' - тип открытия фотографии
+    photo = open('source/Jarvis.png', 'rb') # Открытие фотографии стандартными методами Питона. # 'rb' - тип открытия фотографии
     bot.send_photo(message.chat.id, photo)
     #Отправка фотографии 2
     bot.send_message(message.chat.id, "Может быть вы ходите посмотреть еще на Железного человека:", parse_mode='html')
-    photo = open('something/IronMan.jpg', 'rb')
+    photo = open('source/IronMan.jpg', 'rb')
     bot.send_photo(message.chat.id, photo)
 
 # Работа с текстом (отслеживание любых текстовых сообщений)
@@ -95,7 +95,6 @@ def get_user_text(message):
     print(f'Name:{message.from_user.first_name} Username:{message.from_user.username} id:{message.from_user.id} message_from_user:   {message.text}')
     # Вывод ответа бота в консоль 
     print(f"Jarvis' answer:   {Jarvis_answer}\n")
-    
 
 # Работа с документами (боту отправляют фото)
 @bot.message_handler(content_types=['photo'])

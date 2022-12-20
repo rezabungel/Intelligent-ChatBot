@@ -1,5 +1,6 @@
 settings.py
-something
+
+source/data.pth
 
 __pycache__
 .DS_Store
