@@ -10,7 +10,7 @@ from model import NeuralNet
 
 import time # Используем для вычисления времени, которое уходит на обучение модели
 
-with open('source/intents.json', 'r') as f:  # Безопасное открытие файла (+ гарантия его закрытия). Режим открытия: r - read mood (открыть файл в режиме чтения)
+with open('../source/intents.json', 'r') as f:  # Безопасное открытие файла (+ гарантия его закрытия). Режим открытия: r - read mood (открыть файл в режиме чтения)
     intents = json.load(f) # Возвращает JSON объект как словарь (Чтения содержимого JSON файла)
 
 all_words = []
@@ -117,7 +117,7 @@ data = {
     "tags": tags
 }
 
-FILE = "source/data.pth"
+FILE = "../source/data.pth"
 torch.save(data, FILE)
 
 print(f"trainig complete. file saved to {FILE}")

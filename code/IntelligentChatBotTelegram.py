@@ -77,11 +77,11 @@ def documentation(message):
 def show_photo(message):
     #Отправка фотографии 1
     bot.send_message(message.chat.id, "Так я вижу себя:", parse_mode='html')
-    photo = open('source/Jarvis.png', 'rb') # Открытие фотографии стандартными методами Питона. # 'rb' - тип открытия фотографии
+    photo = open('../source/Jarvis.png', 'rb') # Открытие фотографии стандартными методами Питона. # 'rb' - тип открытия фотографии
     bot.send_photo(message.chat.id, photo)
     #Отправка фотографии 2
     bot.send_message(message.chat.id, "Может быть вы ходите посмотреть еще на Железного человека:", parse_mode='html')
-    photo = open('source/IronMan.jpg', 'rb')
+    photo = open('../source/IronMan.jpg', 'rb')
     bot.send_photo(message.chat.id, photo)
 
 # Работа с текстом (отслеживание любых текстовых сообщений)
