@@ -42,6 +42,10 @@ python3 IntelligentChatBotTelegram.py
     If you want to use the bot for personal purposes, then you can change the dataset file. Enter your "tag", "patterns" and "responses" in the «intents.json» file or delete the ones you don't need. After making changes to the dataset, the model needs to be retrained.
 </details>
 
+You can go to my telegram bot by [clicking here](https://t.me/CourseWorkIntelligentChatBot) or by scanning the QR code. My bot speaks English. (To chat with him, he must be running.)
+
+![0_QR_code_of_my_telegram_bot](./source_for_README/0_QR_code_of_my_telegram_bot.png)
+
 Below you will find more detailed information about the project. If this is not enough for you, then you can look at the report (file [Coursework Report.pdf](Coursework%20Report.pdf)) there is a theory and what will be written below. The report is in Russian.
 
 ## <a name="Project_structure">Project structure</a>
